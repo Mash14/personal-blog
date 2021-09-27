@@ -1,14 +1,14 @@
 {% macro displayPostList(post_list) %}
 
-    {% for blog in post_list %}
+    {% for post in post_list %}
     
         <div class="row">
             <div class="col-md-4">
-                <h4>{{blog.title}}</h4>
+                <h4>{{post.title}}</h4>
 
             </div>
             <div class="col-md-8">
-                <h4>{{blog.content}}</h4>                
+                <h4>{{post.content}}</h4>                
             </div>
         </div>
         <div class="row">

@@ -77,7 +77,7 @@ def new_post():
     return render_template('new_post.html',title = title,form = form)
       
 
-@main.route('/blog/update/post', methods = ['GET','POST'])
+@main.route('/blog/update/post/<int:id>', methods = ['GET','POST'])
 @login_required
 def update_post(id):
     post = Post.query.get_or_404(id)
@@ -95,12 +95,13 @@ def update_post(id):
 
     elif request.method == 'GET':
         form.title.data = post.title
-        form.content = post.content
+        form.content.data = post.content
 
     title = 'Update post'
     return render_template('update_post.html',title = title,post = post,update_form = form)
 
-@main.route('/blog/delete/post', methods = ['GET','POST'])
+
+@main.route('/blog/delete/post/<int:id>', methods = ['GET','POST'])
 @login_required
 def delete_post(id):
     post = Post.get_post_id(id)
@@ -108,7 +109,7 @@ def delete_post(id):
     db.session.delete(post)
     db.session.commit()
 
-    return redirect(url_for('index.html',id = post.id))
+    return redirect(url_for('main.index',id = post.id))
 
 
 @main.route('/blog/post/comment/<int:id>',methods = ['GET','POST'])
@@ -127,7 +128,7 @@ def new_comment(id):
 
    
     title = 'Comment'
-    return render_template('new_comment.html',title = title,comment = comment,comment_form = form)
+    return render_template('new_comment.html',title = title,comment = comment,comment_form = form,post = post)
 
 
 @main.route('/blog/delete/comment<int:id>', methods = ['GET','POST'])
