@@ -1,0 +1,3 @@
+Hello {{user.username}}
+Welcome to Personal Blog.
+Enjoy all the latest blogs and hope you become a writer too.

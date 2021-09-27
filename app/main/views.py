@@ -1,5 +1,11 @@
-from flask import render_template,request,redirect,url_for,abort
-from ..models import Reviews, User
+from datetime import datetime
+from flask import render_template,request,redirect,url_for,abort,flash
+from flask_login import login_required,current_user
+from . import main
+from ..models import User,Post,Comment,Subscriber
+from .forms import UpdateProfile,PostForm,CommentForm,UpdatePost
+from .. import db,photos 
+from ..requests import get_quotes
 
 
 
@@ -10,7 +16,7 @@ def profile(uname):
     if user is None:
         abort(404)
 
-    return render_template("profile/profile.html", user = user)
+    return render_template('profile/profile.html',user = user)
 
 
 @main.route('/user/<uname>/update',methods = ['GET','POST'])
@@ -30,7 +36,8 @@ def update_profile(uname):
 
         return redirect(url_for('.profile',uname=user.username))
 
-    return render_template('profile/update.html',form =form)
+    title = 'Update bio'
+    return render_template('profile/update.html',form =form,title = title)
 
 
 @main.route('/user/<uname>/update/pic',methods= ['POST'])
@@ -43,3 +50,4 @@ def update_pic(uname):
         user.profile_pic_path = path
         db.session.commit()
     return redirect(url_for('main.profile',uname=uname))
+
