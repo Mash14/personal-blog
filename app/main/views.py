@@ -76,3 +76,27 @@ def new_post():
     title = 'New Blog'
     return render_template('new_post.html',title = title,form = form)
       
+
+@main.route('/blog/update/post', methods = ['GET','POST'])
+@login_required
+def update_post(id):
+    post = Post.query.get_or_404(id)
+
+    form = UpdatePost()
+
+    if form.validate_on_submit():
+        post.title = form.title.data
+        post.content = form.content.data
+
+        db.session.add(post)
+        db.session.commit()
+
+        return redirect(url_for('main.index'))
+
+    elif request.method == 'GET':
+        form.title.data = post.title
+        form.content = post.content
+
+    title = 'Update post'
+    return render_template('update_post.html',title = title,post = post,update_form = form)
+
