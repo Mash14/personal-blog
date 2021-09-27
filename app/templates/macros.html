@@ -1,0 +1,41 @@
+{% macro displayPostList(post_list) %}
+
+    {% for blog in post_list %}
+    
+        <div class="row">
+            <div class="col-md-4">
+                <h4>{{blog.title}}</h4>
+
+            </div>
+            <div class="col-md-8">
+                <h4>{{blog.content}}</h4>                
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <p>Posted by: {{post.user.username}}</p>
+                <p>Posted at: {{post.posted.strftime('%B %d, %Y')}}</p>
+                <a class="btn btn-success btn-lg text-center" href="{{url_for('main.update_post',id = post.id)}}">Update post</a>
+                <a class="btn btn-danger btn-lg text-center" href="{{url_for('main.delete_post', id = post.id)}}">Delete post</a>
+                <a class="btn btn-success btn-lg text-center" href="{{url_for('main.new_comment',id = post.id)}}">Comment</a>
+            </div>
+        </div>
+    
+    {% endfor %}
+
+{% endmacro %}
+
+{% macro displayComments(comment_list) %}
+    {% for comment in comment_list %}
+    <div class="row">
+        <div class="col-md-9">
+            <p>{{comment.content}}</p>
+        </div>
+        <div class="col-md-3">
+            <a href="{{url_for('main.delete_comment',id = comment.id)}}" type="button" class="btn btn-danger d-flex">Delete</a>
+        </div>
+    </div>
+       
+        
+    {% endfor %}   
+{% endmacro%}
