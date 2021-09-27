@@ -100,3 +100,12 @@ def update_post(id):
     title = 'Update post'
     return render_template('update_post.html',title = title,post = post,update_form = form)
 
+@main.route('/blog/delete/post', methods = ['GET','POST'])
+@login_required
+def delete_post(id):
+    post = Post.get_post_id(id)
+
+    db.session.delete(post)
+    db.session.commit()
+
+    return redirect(url_for('index.html',id = post.id))
