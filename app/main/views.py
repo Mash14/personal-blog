@@ -139,3 +139,13 @@ def delete_comment(id):
     db.session.commit()
 
     return redirect(url_for("main.new_comment",id = comment.id))
+
+
+@main.route('/subscribe')
+@login_required
+def subscribe():
+    subs = Subscriber(email=current_user.email)
+    db.session.add(subs)
+    db.session.commit()
+    subs.save_subscriber()
+    return redirect(url_for("main.index"))
