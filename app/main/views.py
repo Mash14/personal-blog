@@ -8,6 +8,14 @@ from .. import db,photos
 from ..requests import get_quotes
 
 
+@main.route('/')
+def index():
+    
+    post = Post.get_all_posts()
+    quote = get_quotes()
+    title = 'HOME - Pesonal Blog'
+    return render_template('index.html',title = title,posts = post,quote = quote)
+
 
 @main.route('/user/<uname>')
 def profile(uname):
@@ -51,3 +59,20 @@ def update_pic(uname):
         db.session.commit()
     return redirect(url_for('main.profile',uname=uname))
 
+
+@main.route('/blog/post',methods = ['GET','POST'])
+@login_required
+def new_post():
+    form = PostForm()
+    if form.validate_on_submit():
+        title = form.title.data
+        content = form.content.data
+
+        new_post = Post(title = title,content = content,posted = datetime.now(),user = current_user)
+
+        new_post.save_post()
+        return redirect(url_for('main.index',id = new_post.id))
+
+    title = 'New Blog'
+    return render_template('new_post.html',title = title,form = form)
+      
