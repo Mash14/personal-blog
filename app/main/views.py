@@ -128,3 +128,14 @@ def new_comment(id):
    
     title = 'Comment'
     return render_template('new_comment.html',title = title,comment = comment,comment_form = form)
+
+
+@main.route('/blog/delete/comment<int:id>', methods = ['GET','POST'])
+@login_required
+def delete_comment(id):
+    comment = Comment.get_comment_id(id)
+
+    db.session.delete(comment)
+    db.session.commit()
+
+    return redirect(url_for("main.new_comment",id = comment.id))
