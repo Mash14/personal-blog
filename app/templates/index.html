@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+{% import 'macros.html' as macro %}
+
+<!-- Styles block-->
+
+{% block styles %}
+    {{ super() }}
+    <link rel="stylesheet" href="{{url_for('static',filename = 'css/index.css')}}">
+{% endblock %}
+
+{% block content %}
+<div class="block">
+    <blockquote cite="http://quotes.stormconsultancy.co.uk/random.json">
+        {{quote.quote}}
+    </blockquote>
+    <p>- {{quote.author}}</p>
+</div>
+{% endblock %}
