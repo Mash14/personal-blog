@@ -109,3 +109,22 @@ def delete_post(id):
     db.session.commit()
 
     return redirect(url_for('index.html',id = post.id))
+
+
+@main.route('/blog/post/comment/<int:id>',methods = ['GET','POST'])
+@login_required
+def new_comment(id):
+    form = CommentForm()
+    comment = Comment.get_comment(id)
+    post = Post.get_post_id(id)
+    if form.validate_on_submit():
+        content = form.content.data
+
+        new_comment = Comment(content = content,user = current_user,post_id = post.id)
+
+        new_comment.save_comment()
+        return redirect(url_for('main.new_comment',id = post.id))
+
+   
+    title = 'Comment'
+    return render_template('new_comment.html',title = title,comment = comment,comment_form = form)

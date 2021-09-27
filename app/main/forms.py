@@ -16,3 +16,7 @@ class UpdatePost(FlaskForm):
     title = StringField('New Title',validators=[Required()])
     content = TextAreaField('New content',validators=[Required()])
     submit = SubmitField('Post')
+
+class CommentForm(FlaskForm):
+    content = TextAreaField('Comment on the blog',validators=[Required()])
+    submit = SubmitField('Post')
