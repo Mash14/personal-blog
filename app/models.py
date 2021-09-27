@@ -13,6 +13,7 @@ class User(db.Model):
     profile_pic_path = db.Column(db.String())
     pass_secure = db.Column(db.String(255))
     posts = db.relationship('Post',backref = 'user',lazy = 'dynamic')
+    comments = db.relationship('Comment',backref = 'user',lazy = 'dynamic')
     
 
     @property
@@ -63,3 +64,31 @@ class Post(db.Model):
     @classmethod
     def get_all_posts(cls):
         return Post.query.order_by(Post.posted).all()
+
+
+class Comment(db.Model):
+    __tablename__ = 'comments'
+
+    id = db.Column(db.Integer,primary_key = True)
+    content = db.Column(db.String(300))
+    posted = db.Column(db.DateTime,default = datetime.utcnow)
+    user_id = db.Column(db.Integer,db.ForeignKey("users.id"))
+    post_id = db.Column(db.Integer,db.ForeignKey("posts.id"))
+
+    def save_comment(self):
+        db.session.add(self)
+        db.session.commit()
+
+    def delete_comment(self):
+        db.session.remove(self)
+        db.session.commit()
+
+    @classmethod
+    def get_comment(self,id):
+        comment = Comment.query.order_by(Comment.posted.desc()).filter_by(post_id = id).all()
+        return comment
+
+    @classmethod
+    def get_comment_id(self,id):
+        comment = Comment.query.filter_by(id = id).first()
+        return comment
