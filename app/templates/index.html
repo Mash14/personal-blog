@@ -8,7 +8,18 @@
     <link rel="stylesheet" href="{{url_for('static',filename = 'css/index.css')}}">
 {% endblock %}
 
+
 {% block content %}
+<h1>BLOGS</h1>
+<p>Welcome to the personal blog</p>
+<p>Enjoy the blogs posted and feel free to comment on any blog and give your feedback</p>
+<p>To write any blogs you should be registered as a writer</p>
+<p>To post new  blogs can be done here:<a href="{{url_for('main.new_post')}}"> Upload Blog</a></p>
+{% if posts %}
+    {{macro.displayPostList(posts)}}
+{% else%}
+    <p>There are no posts available yet</p>
+{% endif %}
 <div class="block">
     <blockquote cite="http://quotes.stormconsultancy.co.uk/random.json">
         {{quote.quote}}
