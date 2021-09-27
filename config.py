@@ -8,7 +8,7 @@ class Config:
     # SECRET_KEY = os.environ.get('SECRET_KEY')
     SECRET_KEY = 'Flask78WTF78Secret67Key'
     UPLOADED_PHOTOS_DEST ='app/static/photos'
-    SQLALCHEMY_DATABASE_URI = 'postgresql+psycopg2://mash:password@localhost/personal'
+    SQLALCHEMY_DATABASE_URI = 'postgresql+psycopg2://mash:password@localhost/blog'
     #  email configurations
     MAIL_SERVER = 'smtp.googlemail.com'
     MAIL_PORT = 587
